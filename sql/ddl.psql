@@ -1,0 +1,3 @@
+create database nodedb_for_behavioralgoal;
+
+create table member_dev (id integer primary key, name varchar(20));
