@@ -1,26 +1,45 @@
-"use strict";
+const express = require("express"),
+    app = express(),
+    bodyParser = require("body-parser"),
+    { Client } = require("pg"),
+    fs = require("fs");
 
-const express = require("express");
-const app = express();
-require('dotenv').config();
+const postgre_credential_text = fs.readFileSync("./secret/postgresql.json");
+const postgre_credential_json = JSON.parse(postgre_credential_text);
+    
+const client = new Client({
+    user: postgre_credential_json.username,
+    host: "127.0.0.1",
+    database: "nodedb_for_behavioralgoal",
+    password: postgre_credential_json.password,
+    port: 5432,
+})
+client.connect();
 
-var options = {
-    key: process.env.TWIBOT_TWITTER_KEY,
-    secret: process.env.TWIBOT_TWITTER_SECRET,
-    token: process.env.TWIBOT_TWITTER_TOKEN,
-    token_secret: process.env.TWIBOT_TWITTER_TOKEN_SECRET
-};
+app.set("views", `${__dirname}/views`);
+app.set("view engine", "ejs");
 
-app.set('options', options);
-app.set('port', 5000);
-app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true}));
 
-app.get('/', function(request, response) {
-    response.send('This is Twitter-bot application.')
+app.get("/", (req, res) => {
+    res.render("index");
 });
 
-app.listen(app.get('port'), function() {
-    console.log("Node app is running at localhost:" + app.get('port'))
+app.post("/register", (req, res) => {
+    res.send(req.body.action_goal);
+    
+    const registerActionGoal = "INSERT INTO action_goals_dev (id, goal_content) VALUES ($1, $2)"
+    const values = [1, `${req.body.action_goal}`];
+    
+    client.query(registerActionGoal, values)
+        .then((res) => {
+            console.log(res);
+            client.end();
+        })
+        .catch( (e) => console.error(e.stack));
 });
-  
-module.exports = app;
+
+
+app.listen(8080);
+console.log("server listening...");
