@@ -27,8 +27,6 @@ app.get("/", (req, res) => {
 });
 
 app.post("/register", (req, res) => {
-    res.send(req.body.action_goal);
-    
     const registerActionGoal = "INSERT INTO action_goals_dev (id, goal_content) VALUES ($1, $2)"
     const values = [1, `${req.body.action_goal}`];
     
@@ -38,6 +36,11 @@ app.post("/register", (req, res) => {
             client.end();
         })
         .catch( (e) => console.error(e.stack));
+    
+    res.render()
+    res.send('action_goals_list', {goal: `${req.body.action_goal}`});
+    
+    
 });
 
 
