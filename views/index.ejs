@@ -13,9 +13,39 @@
         </div>
         <p>
         	<form method="post" action="/register">
-		        <input type="text" name="action_goal">
-		        <input type="submit" value="Register">
+                <label for="id">ID</label>
+                <input type="text" id="id" name="id"></input><br>
+                <label for="goal_content">Action Goal</label>
+                <input type="text" id="goal_content" name="goal_content"></input><br>
+                <label for="status">Status</label>
+                <input type="text" id="status" name="status">Working</input><br>
+                <button type="submit">Register</button>
 	        </form>
         </p>
+        <h2>Action Goals Table</h2>
+        <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Action Goal</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+        <% action_goals_arguments.forEach(action_goal => { %>
+            <tr>
+                <td>
+                    <%= action_goal.id %>
+                </td>
+                <td>
+                    <%= action_goal.goal_content %>
+                </td>
+                <td>
+                    <%= action_goal.status %>
+                </td>
+            </tr>
+        <% }); %>
+        </tbody>
+        </table>
     </body>
 </html>

@@ -2,8 +2,11 @@ const express = require("express"),
     app = express(),
     bodyParser = require("body-parser"),
     { Client } = require("pg"),
-    fs = require("fs");
+    fs = require("fs"),
+    goalController = require("./controllers/goalController");
 
+
+/*
 const postgre_credential_text = fs.readFileSync("./secret/postgresql.json");
 const postgre_credential_json = JSON.parse(postgre_credential_text);
     
@@ -15,6 +18,7 @@ const client = new Client({
     port: 5432,
 })
 client.connect();
+*/
 
 app.set("views", `${__dirname}/views`);
 app.set("view engine", "ejs");
@@ -22,25 +26,9 @@ app.set("view engine", "ejs");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
-app.get("/", (req, res) => {
-    res.render("index");
-});
+app.get("/", goalController.index);
 
-app.post("/register", (req, res) => {
-    const registerActionGoal = "INSERT INTO action_goals_dev (id, goal_content) VALUES ($1, $2)"
-    const values = [2, `${req.body.action_goal}`];
-    
-    client.query(registerActionGoal, values)
-        .then((res) => {
-            console.log(res);
-            client.end();
-        })
-        .catch( (e) => console.error(e.stack));
-    
-    res.render('action_goals_list', {goal: `${req.body.action_goal}`})
-    
-    
-});
+app.post("/register", goalController.register);
 
 
 app.listen(8080);
