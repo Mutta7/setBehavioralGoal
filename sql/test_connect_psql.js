@@ -20,9 +20,10 @@ var insertQuery = {
 */
 
 var selectQuery = {
-    text: "SELECT * FROM action_goals_dev",
+    text: "SELECT * FROM action_goals_dev2",
 }
 
+/*
 const testFunc = () =>{
     client.query(selectQuery)
     .then((res) => {
@@ -33,10 +34,11 @@ const testFunc = () =>{
     .catch( (e) => console.error(e.stack));
 }
 
+
 const goal_list = testFunc();
 console.log(goal_list);
+*/
 
-/*
 client.query(selectQuery)
     .then((res) => {
         console.log(res);
@@ -44,4 +46,3 @@ client.query(selectQuery)
         client.end();
     })
     .catch( (e) => console.error(e.stack));
-*/

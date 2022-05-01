@@ -5,7 +5,8 @@ actionGoals = {
     status: [working, completed]
 }
 */
-const fs = require("fs");
+const fs = require("fs"),
+    { Client } = require("pg");
 
 module.exports = {
     getActionGoals: function (){
@@ -22,14 +23,14 @@ module.exports = {
         client.connect();
 
         const getActionGoalQuery = "SELECT * FROM action_goals_dev2"
-        const action_goals_arguments = null;
+        let action_goals_arguments = null;
         client.query(getActionGoalQuery, (err, res) => {
             if (err) throw err;
-            console.log(res.rows); // TODO : this data should be rendered by contoroller.
+            console.log(res.rows);
             action_goals_arguments = res.rows;
             client.end();
+            //return res.rows;
         })
-        console.log(action_goals_arguments);
         return action_goals_arguments;
     },
 
