@@ -27,8 +27,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
 app.get("/", goalController.index);
+app.get("/index", goalController.index);
 
-app.post("/register", goalController.register);
+app.post("/register", goalController.register, goalController.redirectView);
 
 
 app.listen(8080);

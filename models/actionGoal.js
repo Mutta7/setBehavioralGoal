@@ -9,8 +9,8 @@ const fs = require("fs"),
     { Client } = require("pg");
 
 module.exports = {
-    getActionGoals: function (){
-        const postgre_credential_text = fs.readFileSync("./secret/postgresql.json");
+    getActionGoals:async function (){
+        const postgre_credential_text = fs.readFileSync("C:/Users/hsnzn/source/typescript/setBehavioralGoal/secret/postgresql.json");
         const postgre_credential_json = JSON.parse(postgre_credential_text);
 
         const client = new Client({
@@ -24,14 +24,20 @@ module.exports = {
 
         const getActionGoalQuery = "SELECT * FROM action_goals_dev2"
         let action_goals_arguments = null;
-        client.query(getActionGoalQuery, (err, res) => {
+        const res = await client.query(getActionGoalQuery);
+        client.end();
+        return res.rows;
+        /*
+        await client.query(getActionGoalQuery, (err, res) => {
             if (err) throw err;
-            console.log(res.rows);
+            console.log("res.rows : " + res.rows);
             action_goals_arguments = res.rows;
             client.end();
-            //return res.rows;
+            return res.rows;
         })
-        return action_goals_arguments;
+        */
+
+        //return action_goals_arguments;
     },
 
     registerActionGoal: function(formData) {
