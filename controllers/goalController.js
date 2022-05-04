@@ -8,10 +8,10 @@ module.exports = {
         res.locals.action_goals_arguments = action_goals_arguments;
         res.render("index");
     },
-    register: (req, res, next) => {
+    register: async (req, res, next) => {
         const formData = req.body;
-        actionGoals.registerActionGoal(formData);
-        next();
+        await actionGoals.registerActionGoal(formData);
+        res.redirect(redirectPath);
         //res.redirect(redirectPath);
     },
     redirectView: (req, res, next) => {
