@@ -5,14 +5,15 @@ const express = require("express"),
     fs = require("fs"),
     goalController = require("./controllers/goalController");
 
-const apiSampleRouter = require("./controllers/apiController")
+const apiSampleRouter = require("./routes/api_actionGoals");
+//const apiSampleRouter = require("./controllers/apiController")
 
 app.set("views", `${__dirname}/views`);
 app.set("view engine", "ejs");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
-app.use("/api_sapmle", apiSampleRouter);
+app.use("/api_actionGoals", apiSampleRouter);
 
 app.get("/", goalController.index);
 app.get("/index", goalController.index);
